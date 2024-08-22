@@ -1,17 +1,9 @@
 export const success = (messageApi) => {
   messageApi.open({
-    type: "loading",
-    content: "Loading...",
-    duration:0.8,
+    type: "success",
+    content: "Product added successfully!",
+    duration: 1,
   });
-
-  setTimeout(() => {
-    messageApi.open({
-      type: "success",
-      content: "Product added successfully!",
-      duration: 1,
-    });
-  }, 1000);
 };
 
 export const error = (messageApi) => {
