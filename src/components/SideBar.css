@@ -1,0 +1,88 @@
+/* Sidebar.css */
+
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #222;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    transition: width 0.3s;
+    z-index: 9999;
+}
+
+.sidebar.collapsed {
+    width: 80px;
+}
+
+.sidebar .toggle-btn {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    cursor: pointer;
+    border-top: 3px solid #222;
+}
+
+.sidebar-links {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sidebar-item {
+    position: relative; /* Necessary for tooltip positioning */
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    color: #fff;
+}
+
+.sidebar-item:hover {
+    background-color: #444;
+}
+
+/* Tooltip styles */
+.sidebar-item .tooltip {
+    position: absolute;
+    left: calc(100% + 10px); /* Position tooltip outside of sidebar */
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.sidebar-item:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.sidebar-links li span {
+    margin-left: 10px;
+    font-size: 18px;
+}
+
+.sidebar-logout {
+    margin-top: auto;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 80px;
+    }
+
+    .sidebar.collapsed {
+        width: 80px;
+    }
+}
