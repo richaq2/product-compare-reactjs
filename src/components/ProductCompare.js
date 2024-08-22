@@ -48,9 +48,6 @@ function CompareProduct({ compareList, onRemoveProduct, addToCompare }) {
       key: "category",
       title: "Category",
       dataIndex: "category",
-      key: "category",
-      title: "Category",
-      dataIndex: "category",
       filters: [
         { text: "beauty", value: "beauty" },
         { text: "fragrances", value: "fragrances" },
