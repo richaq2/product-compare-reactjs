@@ -148,7 +148,9 @@
   visibility: visible;
   opacity: 1;
 }
-
+.sidebar-links a{
+  text-decoration: none;
+}
 .sidebar-links li span {
   margin-left: 10px;
   font-size: 18px;

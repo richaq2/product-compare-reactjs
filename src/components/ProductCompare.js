@@ -1,5 +1,16 @@
 import React, { useState } from "react";
-import { Card, Row, Col, Button, Modal, Table } from "antd";
+import {
+  Card,
+  Row,
+  Col,
+  Button,
+  Modal,
+  Table,
+  Tooltip,
+  Flex,
+  Result,
+  Divider,
+} from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { useEffectProducts } from "./utils";
 
@@ -7,7 +18,6 @@ function CompareProduct({ compareList, onRemoveProduct, addToCompare }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
-  
 
   useEffectProducts(setLoading, setDataSource);
 
@@ -38,6 +48,18 @@ function CompareProduct({ compareList, onRemoveProduct, addToCompare }) {
       key: "category",
       title: "Category",
       dataIndex: "category",
+      key: "category",
+      title: "Category",
+      dataIndex: "category",
+      filters: [
+        { text: "beauty", value: "beauty" },
+        { text: "fragrances", value: "fragrances" },
+        { text: "furniture", value: "furniture" },
+        { text: "groceries", value: "groceries" },
+      ],
+      onFilter: (value, record) => {
+        return record.category === value;
+      },
     },
     {
       key: "thumbnail",
@@ -69,7 +91,6 @@ function CompareProduct({ compareList, onRemoveProduct, addToCompare }) {
   ];
 
   const showModal = () => {
-
     setIsModalVisible(true);
   };
 
@@ -81,28 +102,44 @@ function CompareProduct({ compareList, onRemoveProduct, addToCompare }) {
     setIsModalVisible(false);
   };
 
-//   const handleAddToCompare = (product) => {
-//     if (compareList.length < 4) {
-//       addToCompare(product);
-//     } else {
-//       alert("You can only compare up to 4 products.");
-//     }
-//   };
-
   return (
-    <div className="container">
-      <h2>Compare Products</h2>
-      <Row gutter={16}>
+    <div
+      style={{
+        margin: "0px 10px 0px 85px",
+      }}
+    >
+      <Flex gap="small" justify="space-between">
+        <h2>Compare Products</h2>
+        {compareList.length < 4 && (
+          <Button
+            type="primary"
+            onClick={showModal}
+            style={{ marginTop: "20px", float: "right", marginRight: "10px" }}
+          >
+            Add More
+          </Button>
+        )}
+      </Flex>
+      <Divider />
+      <Row className="compare" gutter={[16, 16]}>
         {compareList.map((product, index) => (
-          <Col span={6} key={product.id}>
+          <Col xs={24} sm={12} md={8} lg={6} xl={6} key={product.id}>
             <Card
               title={product.title}
               extra={
-                <Button
-                  type="danger"
-                  icon={<DeleteOutlined />}
-                  onClick={() => onRemoveProduct(product.id)}
-                />
+                <Tooltip title="delete" color="gray">
+                  <Button
+                    type="danger"
+                    icon={
+                      <DeleteOutlined
+                        style={{
+                          color: "red",
+                        }}
+                      />
+                    }
+                    onClick={() => onRemoveProduct(product.id)}
+                  />
+                </Tooltip>
               }
             >
               <p>
@@ -126,15 +163,7 @@ function CompareProduct({ compareList, onRemoveProduct, addToCompare }) {
           </Col>
         ))}
       </Row>
-      {compareList.length < 4 && (
-        <Button
-          type="primary"
-          onClick={showModal}
-          style={{ marginTop: "20px" }}
-        >
-          Add More
-        </Button>
-      )}
+
       <Modal
         title="Add More Products"
         open={isModalVisible}
@@ -150,7 +179,13 @@ function CompareProduct({ compareList, onRemoveProduct, addToCompare }) {
           rowKey="id"
         />
       </Modal>
-      {compareList.length === 0 && <p>No products selected for comparison.</p>}
+      {compareList.length === 0 && (
+        <Result
+          status="500"
+          title="No products selected for comparison!"
+          subTitle="Click on add more to add products"
+        />
+      )}
     </div>
   );
 }

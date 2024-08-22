@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { FaShoppingBasket, FaPlus, FaLessThan, FaAlignJustify } from 'react-icons/fa';
+import { FaShoppingBasket, FaPlus, FaAlignJustify } from 'react-icons/fa';
+import { CloseOutlined } from "@ant-design/icons";
 import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
-    const [isCollapsed, setIsCollapsed] = useState(false);
+    const [isCollapsed, setIsCollapsed] = useState(true);
 
     const toggleSidebar = () => {
         setIsCollapsed(!isCollapsed);
@@ -12,7 +13,7 @@ const Sidebar = () => {
     return (
         <div className={`sidebar ${isCollapsed ? 'collapsed' : ''}`}>
             <button className="toggle-btn" onClick={toggleSidebar}>
-                {isCollapsed ? <FaAlignJustify /> : <FaLessThan />}
+                {isCollapsed ? <FaAlignJustify /> : <CloseOutlined /> }
             </button>
             <ul className="sidebar-links">
                 <Link to='/'>

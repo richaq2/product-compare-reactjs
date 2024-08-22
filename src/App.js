@@ -1,6 +1,5 @@
 import "./App.css";
 import { message } from "antd";
-
 import { useState } from "react";
 import Navbar from "./components/navbar";
 import ProductCompare from "./components/ProductCompare";

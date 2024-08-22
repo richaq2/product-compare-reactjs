@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import { Button,Tooltip } from "antd";
 
 export const columnsData = (addedProducts, handleAddToCompare,removeFromCompare  ) => [
   {
@@ -59,6 +59,7 @@ export const columnsData = (addedProducts, handleAddToCompare,removeFromCompare 
     key: "action",
     render: (_, record) => (
       addedProducts.includes(record.id) ? (
+        <Tooltip title="remove" color='gray'>
         <Button
           type="danger"
           icon={<DeleteOutlined style={{
@@ -66,8 +67,10 @@ export const columnsData = (addedProducts, handleAddToCompare,removeFromCompare 
           }} />}
           onClick={() => removeFromCompare(record.id)}
         />
-       
+        </Tooltip>
       ) : (
+      
+
         <Button
           key={record.id}
           type="primary"
@@ -75,9 +78,10 @@ export const columnsData = (addedProducts, handleAddToCompare,removeFromCompare 
           onClick={() => handleAddToCompare(record)}
           disabled={addedProducts.includes(record.id)} // Disable if product is already added
           size="md"
-        >
+          >
           Compare
         </Button>
+         
           )
         ),
     
