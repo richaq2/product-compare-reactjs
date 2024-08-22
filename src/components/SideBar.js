@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './SideBar.css';
 import { FaShoppingBasket, FaPlus, FaLessThan, FaAlignJustify } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 

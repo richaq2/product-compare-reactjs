@@ -1,27 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Row, Col, Button, Modal, Table } from 'antd';
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import React, { useState } from "react";
+import { Card, Row, Col, Button, Modal, Table } from "antd";
+import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import { useEffectProducts } from "./utils";
 
 function CompareProduct({ compareList, onRemoveProduct, addToCompare }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
+  
 
-  // Fetch all products for the modal when it opens
-  useEffect(() => {
-    setLoading(true);
-    fetch("https://dummyjson.com/products")
-      .then((response) => response.json())
-      .then((data) => {
-        setDataSource(data.products);
-      })
-      .catch((error) => {
-        console.log("Data not found", error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+  useEffectProducts(setLoading, setDataSource);
 
   const columns = [
     {
@@ -55,18 +43,24 @@ function CompareProduct({ compareList, onRemoveProduct, addToCompare }) {
       key: "thumbnail",
       title: "Image",
       dataIndex: "thumbnail",
-      render: (text) => <img src={text} alt="thumbnail" style={{ width: 50 }} />,
+      render: (text) => (
+        <img src={text} alt="thumbnail" style={{ width: 50 }} />
+      ),
     },
     {
-      title: 'Action',
-      key: 'action',
+      title: "Action",
+      key: "action",
       render: (_, record) => (
         <Button
+          key={record.id}
           type="primary"
           icon={<PlusOutlined />}
-          size='md'
-          onClick={() => handleAddToCompare(record)}
-          disabled={compareList.length >= 4 || compareList.some(product => product.id === record.id)} // Disable if already added or list is full
+          size="md"
+          onClick={() => addToCompare(record)}
+          disabled={
+            compareList.length >= 4 ||
+            compareList.some((product) => product.id === record.id)
+          } // Disable if already added or list is full
         >
           Add
         </Button>
@@ -75,6 +69,7 @@ function CompareProduct({ compareList, onRemoveProduct, addToCompare }) {
   ];
 
   const showModal = () => {
+
     setIsModalVisible(true);
   };
 
@@ -86,13 +81,13 @@ function CompareProduct({ compareList, onRemoveProduct, addToCompare }) {
     setIsModalVisible(false);
   };
 
-  const handleAddToCompare = (product) => {
-    if (compareList.length < 4) {
-      addToCompare(product);
-    } else {
-      alert("You can only compare up to 4 products.");
-    }
-  };
+//   const handleAddToCompare = (product) => {
+//     if (compareList.length < 4) {
+//       addToCompare(product);
+//     } else {
+//       alert("You can only compare up to 4 products.");
+//     }
+//   };
 
   return (
     <div className="container">
@@ -110,26 +105,49 @@ function CompareProduct({ compareList, onRemoveProduct, addToCompare }) {
                 />
               }
             >
-              <p><strong>Price:</strong> {product.price}$</p>
-              <p><strong>Discount:</strong> {product.discountPercentage}%</p>
-              <p><strong>Brand:</strong> {product.brand}</p>
-              <p><strong>Category:</strong> {product.category}</p>
-              <img src={product.thumbnail} alt={product.title} style={{ width: '100%' }} />
+              <p>
+                <strong>Price:</strong> {product.price}$
+              </p>
+              <p>
+                <strong>Discount:</strong> {product.discountPercentage}%
+              </p>
+              <p>
+                <strong>Brand:</strong> {product.brand}
+              </p>
+              <p>
+                <strong>Category:</strong> {product.category}
+              </p>
+              <img
+                src={product.thumbnail}
+                alt={product.title}
+                style={{ width: "100%" }}
+              />
             </Card>
           </Col>
         ))}
       </Row>
       {compareList.length < 4 && (
-        <Button type="primary" onClick={showModal} style={{ marginTop: '20px' }}>
+        <Button
+          type="primary"
+          onClick={showModal}
+          style={{ marginTop: "20px" }}
+        >
           Add More
         </Button>
       )}
-      <Modal title="Add More Products" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={800}>
+      <Modal
+        title="Add More Products"
+        open={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        width={800}
+      >
         <Table
           loading={loading}
           columns={columns}
           dataSource={dataSource}
           pagination={true}
+          rowKey="id"
         />
       </Modal>
       {compareList.length === 0 && <p>No products selected for comparison.</p>}
